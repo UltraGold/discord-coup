@@ -7,6 +7,11 @@ class GameState:
         self.curr_player = 0
         self.in_conflict = None
         self.channel = None
+        self.timer = None
+        self.waiting_for_action = True
+        self.waiting_for_permissions = False
+        self.accepted_list = []
+        self.prev = ""
     def add_cards(self, n_cards, player):
         if n_cards > len(self.deck):
             n_cards = len(self.deck)
@@ -27,8 +32,11 @@ class GameState:
             if player.discord_tag == discord_tag:
                 return player
         return None
-    
 
+    def get_permissions(self, player):
+        self.waiting_for_permissions = True
+        self.accepted_list = [player]
+   
 
 class Card:
     def __init__(self, name):
@@ -54,7 +62,6 @@ class Player:
 
     
     def get_cards(self):
-        
         return str(self.cards)
 
     def call_duke_block(self):
@@ -82,7 +89,8 @@ class Player:
         pass
     def invoke_duke(self):
         """ Give the player +3 coins """
-        self.coins += 3
+        self.curr_game.get_permissions(self)
+
     def duke_block(self):
         """Block foreign aid"""
         pass
@@ -108,7 +116,9 @@ class Player:
     
     def invoke_aid(self):
         """ Give the player +2 coins """
-        pass
+        self.coins += 2
+        self.curr_game.next_turn()
+
     def coup(self):
         """ Pay 7 coins and launch coup against opponent, forcing a turnover of that player """ 
         assert(self.coins > 7, 'player has not enough coins for coup')
@@ -129,6 +139,4 @@ class Player:
 
     def is_above_ten(self):
         return self.coins >= 10
-
-    
 
