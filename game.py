@@ -130,3 +130,6 @@ class Player:
     def is_above_ten(self):
         return self.coins >= 10
 
+    def tester(self):
+        pass
+
