@@ -59,6 +59,10 @@ class MyClient(discord.Client):
                 output += f"{player.discord_tag.mention}: {player.coins}\n" 
             await message.channel.send(output)
         
+        elif game_state.in_conflict is not None and game_state.in_conflict != message.author:
+            await message.channel.send(f"{message.author.mention}, someone is being couped, you must wait for their move.")
+            return
+
         elif game_state.in_conflict == message.author:
             if not is_equal(message, "discard"):
                 await message.channel.send(f"{message.author.mention}, wrong command, you can only call 'discard when couped.")
@@ -112,4 +116,4 @@ class MyClient(discord.Client):
         print('Message from {0.author}: {0.content}'.format(message))
 
 client = MyClient()
-client.run('token here') # FOR ANYTHING USING THIS BOT, PUT YOUR TOKEN IN THE QUOTATION MARKS
+client.run('insert token here') # FOR ANYTHING USING THIS BOT, PUT YOUR TOKEN IN THE QUOTATION MARKS
