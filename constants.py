@@ -22,6 +22,8 @@ PROTECT = "protect"
 EXCHANGE = "exchange"
 COUP = "coup"
 
+#GAME CONSTANT VARIABLES
+
 STARTING_COINS = 2
 
 COUP_COST = 7
